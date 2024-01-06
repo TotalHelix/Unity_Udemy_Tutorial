@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class playerMover : MonoBehaviour
 {
-
-    [SerializeField] float x_speed;
-    [SerializeField] float y_speed;
-    [SerializeField] float z_speed;
+    // changes how fast the player accelerates
+    [SerializeField] float weight = 0.05f;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +16,9 @@ public class playerMover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(x_speed, y_speed, z_speed);
+        float x_velocity = Input.GetAxis("Horizontal") * weight;
+        float z_velocity = Input.GetAxis("Vertical") * weight;
+
+        transform.Translate(x_velocity, 0f, z_velocity);
     }
 }
