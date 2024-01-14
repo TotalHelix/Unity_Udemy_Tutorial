@@ -8,6 +8,10 @@ public class printToConsole : MonoBehaviour
     void Start()
     {
         Debug.Log("Hello World!");
+        if (true)
+        {
+            Debug.Log("In The If");
+        }
     }
 
     // Update is called once per frame
