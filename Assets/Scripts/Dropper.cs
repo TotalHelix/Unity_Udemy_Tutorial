@@ -5,7 +5,7 @@ using UnityEngine;
 public class Dropper : MonoBehaviour
 {
     // what time the falling things fall
-    float dropTime = 2f;
+    readonly float dropTime = 2f;
     void Update()
     {
         if(Time.time > dropTime) 

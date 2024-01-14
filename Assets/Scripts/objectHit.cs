@@ -13,8 +13,19 @@ public class objectHit : MonoBehaviour
     // when the player hits something
     private void OnCollisionEnter(Collision other) 
     {
-        ChangeHitColor(other.gameObject);
-        AddScore();
+        // if the hit object is a part of terrain
+        if (other.gameObject.GetComponent<Transform>().parent.name == "Terrain")
+        {
+            ChangeHitColor(other.gameObject);
+            AddScore();
+            HitTag(other.gameObject);
+        }
+    }
+
+    // tag the hit component with "hit"
+    void HitTag(GameObject hit)
+    {
+        hit.tag = "hit";
     }
 
     // add one to the score
