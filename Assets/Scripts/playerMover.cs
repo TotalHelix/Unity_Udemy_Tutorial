@@ -5,19 +5,19 @@ using UnityEngine;
 public class playerMover : MonoBehaviour
 {
     // changes how fast the player moves
-    float speed = 5.71f;
+    float speed = 300;
 
     // Update is called once per frame
     void Update() 
     {
-        movePlayer();
+        MovePlayer();
     }
 
-    void movePlayer()
+    void MovePlayer()
     {
         float x_velocity = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
         float z_velocity = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 
-        transform.Translate(x_velocity, 0f, z_velocity);
+        GetComponent<Rigidbody>().velocity = new Vector3(x_velocity, GetComponent<Rigidbody>().velocity.y, z_velocity);
     }
 }

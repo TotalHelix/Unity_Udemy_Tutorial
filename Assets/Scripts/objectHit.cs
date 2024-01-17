@@ -7,8 +7,12 @@ using UnityEngine;
 
 public class objectHit : MonoBehaviour
 {
-    readonly float colorChange = 0.2f; // how much the  color changes each time a wall is hit
-    int score = 0; // how many things the player has hit
+    Dictionary<GameObject, float> waitingParts = new();
+
+    private void Update()
+    {
+        ResetOldMaterials();
+    }
 
     // when the player hits something
     private void OnCollisionEnter(Collision other) 
@@ -17,37 +21,36 @@ public class objectHit : MonoBehaviour
         if (other.gameObject.GetComponent<Transform>().parent.name == "Terrain")
         {
             ChangeHitColor(other.gameObject);
-            AddScore();
-            HitTag(other.gameObject);
+            WaitForHit(other.gameObject);
         }
     }
 
-    // tag the hit component with "hit"
-    void HitTag(GameObject hit)
+    // change old materials back after bump
+    void ResetOldMaterials()
     {
-        hit.tag = "hit";
-    }
-
-    // add one to the score
-    void AddScore()
-    {
-        score++;
+        foreach(KeyValuePair<GameObject, float> wall in waitingParts)
+        {
+            if(Time.time > wall.Value) 
+            {
+                wall.Key.GetComponent<MeshRenderer>().material.color = Color.white;
+            }
+        }
     }
 
     // change the color of the hit object
     void ChangeHitColor(GameObject hit) 
     {
-        // get old rgb values
-        Material old_material = hit.GetComponent<MeshRenderer>().material;
-        float red = old_material.color.r;
-        float green = old_material.color.g;
-        float blue = old_material.color.b;
-        
-        //hit.GetComponent<MeshRenderer>().material = Resources.Load<Material>("hit_white");
-        hit.GetComponent<MeshRenderer>().material.color = new Color(
-            red+colorChange, 
-            green-colorChange, 
-            blue-colorChange
-        );
+        hit.GetComponent<MeshRenderer>().material.color = Color.red;
+    }
+
+    void WaitForHit(GameObject hit)
+    {
+        float release_time = Time.time + 0.1f;
+
+        if(waitingParts.ContainsKey(hit)) {
+            waitingParts[hit] = release_time;
+        } else {
+            waitingParts.Add(hit, release_time);
+        }
     }
 }

@@ -33,6 +33,6 @@ public class Elevators : MonoBehaviour
     void Elevate(Collider player)
     {
         player.GetComponent<Rigidbody>().velocity = new Vector3(0,1,0);
-        //player.transform.Translate(0, Time.deltaTime, 0);
+        //'player.transform.Translate(0, Time.deltaTime, 0);
     }
 }
